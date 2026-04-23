@@ -33,7 +33,19 @@ MAX_NEW_TOKENS = int(os.getenv("MAX_NEW_TOKENS", "256"))
 AUTH_BEARER = os.getenv("AUTH_BEARER", "").strip()
 FFMPEG_BIN = os.getenv("FFMPEG_BIN", "ffmpeg")
 
+
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="OpenAI-compatible Audio API (Gemma 4 E4B)")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # mieux: liste explicite en prod
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 processor = None
 model = None
